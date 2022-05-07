@@ -1,2 +1,2 @@
 # BaekJoon
-My BeakJoon solution.
+My BeakJoon solution. It can be wrong.
