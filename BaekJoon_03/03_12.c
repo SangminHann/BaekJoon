@@ -3,13 +3,13 @@
 
 int main(void)
 {
-	int i, a, b;
+	int a, b;
 
-	scanf("%d", &i);
-	for (int j = 0; j < i; j++)
+	scanf("%d %d", &a ,&b);
+	while (a != 0 && b != 0)
 	{
-		scanf("%d %d", &a, &b);
 		printf("%d\n", a + b);
+		scanf("%d %d", &a, &b);
 	}
 
 	return (0);

@@ -6,8 +6,12 @@ int main(void)
 	int i;
 
 	scanf("%d", &i);
-	for (; 1 <= i; i--)
-		printf("%d\n", i);
+	for (int j = 1; j <= i; j++)
+	{
+		for (int k = 0; k < j; k++)
+			printf("*");
+		printf("\n");
+	}
 
 	return (0);
 }

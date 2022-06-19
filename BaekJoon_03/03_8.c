@@ -3,12 +3,14 @@
 
 int main(void)
 {
-	int i, sum = 0;
+	int i, a, b;
 
 	scanf("%d", &i);
 	for (int j = 1; j <= i; j++)
-		sum += j;
-	printf("%d", sum);
+	{
+		scanf("%d %d", &a, &b);
+		printf("Case #%d: %d + %d = %d\n", j, a, b, a + b);
+	}
 
 	return (0);
 }

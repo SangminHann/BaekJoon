@@ -7,7 +7,13 @@ int main(void)
 
 	scanf("%d", &i);
 	for (int j = 1; j <= i; j++)
-		printf("%d\n", j);
+	{
+		for (int l = i - j; l > 0; l--)
+			printf(" ");
+		for (int k = 0; k < j; k++)
+			printf("*");
+		printf("\n");
+	}
 
 	return (0);
 }

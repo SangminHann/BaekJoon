@@ -3,14 +3,10 @@
 
 int main(void)
 {
-	int i, a, b;
+	int a, b;
 
-	scanf("%d", &i);
-	for (int j = 0; j < i; j++)
-	{
-		scanf("%d %d", &a, &b);
+	while (scanf("%d %d", &a, &b) != EOF)
 		printf("%d\n", a + b);
-	}
 
 	return (0);
 }
