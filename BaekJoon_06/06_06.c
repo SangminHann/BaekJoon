@@ -1,15 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <string.h>
-//#include <ctype.h>
+#include <ctype.h>
 
 int main()
 {
-	char str[1000001], * ptr; int cnt;
+	char str[1000001]; int cnt, i;
 
-	scanf("%[^\n]s", str);
-	/*int i;		// way 2
 	cnt = i = 0;
+	scanf("%[^\n]s", str);
 	while (str[i])
 	{
 		if (isspace(str[i]))
@@ -20,7 +18,7 @@ int main()
 			while (!isspace(str[i]) && str[i])
 				i++;
 		}
-	}*/
+	}
 
 
 	printf("%d", cnt);
