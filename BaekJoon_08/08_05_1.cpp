@@ -8,21 +8,13 @@ int main(void)
     ios_base::sync_with_stdio(false); cin.tie(NULL);
     int n, cnt, arr[SIZE] = { 0 }, input;
 
-    arr[0] = 1;
-    arr[1] = 1;
-
+    arr[0] = arr[1] = 1;
     for (int i = 2; i < SIZE / i; i++)
-    {
         if (arr[i] != 1)
-        {
-            for (n = i * i; n < SIZE; n += i) {
+            for (n = i * i; n < SIZE; n += i) 
                 if (n % i == 0)
                     arr[n] = 1;
-            }
-        }
-    }
     cin >> input;
-
     while (input != 0)
     {
         cnt = 0;
@@ -32,5 +24,6 @@ int main(void)
         cout << cnt << '\n';
         cin >> input;
     }
+
     return 0;
 }
