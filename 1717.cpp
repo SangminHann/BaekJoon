@@ -45,24 +45,27 @@ int UnionFind::find_root(int node)
 
 void UnionFind::union_root(int x, int y)
 {
-	int parentX, parentY;
+	int rootX, rootY;
 
-	parentX = find_root(x);
-	parentY = find_root(y);
+	rootX = find_root(x);
+	rootY = find_root(y);
 
-	if (parentX == parentY)
+	if (rootX == rootY)
 		return;
-	parent[parentX] = parentY;
+	if (rootX > rootY)
+		parent[rootX] = rootY;
+	else
+		parent[rootY] = rootX;
 }
 
 void UnionFind::check_root(int x, int y)
 {
-	int parentX, parentY;
+	int rootX, rootY;
 
-	parentX = find_root(x);
-	parentY = find_root(y);
+	rootX = find_root(x);
+	rootY = find_root(y);
 
-	if (parentX == parentY)
+	if (rootX == rootY)
 		cout << "YES" << '\n';
 	else
 		cout << "NO" << '\n';
