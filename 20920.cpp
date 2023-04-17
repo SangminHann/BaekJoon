@@ -16,6 +16,8 @@ bool comp(pair<string, int> &a, pair<string, int> &b)
 
 int main()
 {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 	unordered_map<string, int> wordMap;
 	vector<pair<string, int>> rst;
 	pair<unordered_map<string, int>::iterator, bool> p;
