@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <algorithm>
 
 using namespace std;
@@ -16,9 +16,9 @@ bool comp(pair<string, int> &a, pair<string, int> &b)
 
 int main()
 {
-	map<string, int> sMap;
+	unordered_map<string, int> wordMap;
 	vector<pair<string, int>> rst;
-	pair<map<string, int>::iterator, bool> p;
+	pair<unordered_map<string, int>::iterator, bool> p;
 	string tmp;
 	int len, n;
 
@@ -28,15 +28,17 @@ int main()
 		cin >> tmp;
 		if (tmp.length() >= len)
 		{
-			p = sMap.emplace(tmp, 1);
+			p = wordMap.emplace(tmp, 1);
 			if (!p.second)
-				sMap[tmp]++;
+				wordMap[tmp]++;
 		}
 	}
 
-	copy(sMap.begin(), sMap.end(), back_inserter(rst));
+	copy(wordMap.begin(), wordMap.end(), back_inserter(rst));
 	sort(rst.begin(), rst.end(), comp);
+
 	for (auto &a : rst)
 		cout << a.first << "\n";
+
 	return 0;
 }
