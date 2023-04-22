@@ -5,14 +5,15 @@ using namespace std;
 
 int main()
 {
-	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	int* a, * b, * flag, n, max, tmp, rst = 0;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int *a, *b, *flag, n, max, tmp, rst = 0;
 
 	cin >> n;
 
 	a = new int[n];
 	b = new int[n];
-	flag = new int[n] {0};
+	flag = new int[n]{0};
 
 	for (int i = 0; i < n; i++)
 		cin >> a[i];
