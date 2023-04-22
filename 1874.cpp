@@ -8,6 +8,7 @@ int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
+
 	queue<string> op;
 	stack<int> sequence;
 	int t, num, i = 0;
