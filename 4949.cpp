@@ -23,33 +23,32 @@ int main()
 		{
 			if (sentence[i] == '(')
 				parenthesis.push("(");
+
 			else if (sentence[i] == '[')
 				parenthesis.push("[");
+
 			else if (sentence[i] == ')')
 			{
-				if (parenthesis.empty())
+				if (parenthesis.empty() || parenthesis.top() != "(")
 				{
 					flag = 0;
 					break;
 				}
-				if (parenthesis.top() != "(")
-					break;
 				parenthesis.pop();
 			}
+
 			else if (sentence[i] == ']')
 			{
-				if (parenthesis.empty())
+				if (parenthesis.empty() || parenthesis.top() != "[")
 				{
 					flag = 0;
 					break;
 				}
-				if (parenthesis.top() != "[")
-					break;
 				parenthesis.pop();
 			}
 		}
 
-		if (parenthesis.empty() && flag)
+		if (flag && parenthesis.empty())
 			cout << "yes\n";
 		else
 			cout << "no\n";
@@ -61,5 +60,6 @@ int main()
 		len = sentence.length();
 		flag = 1;
 	}
+
 	return 0;
 }
