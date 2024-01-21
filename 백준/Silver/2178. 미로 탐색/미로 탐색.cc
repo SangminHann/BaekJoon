@@ -10,51 +10,46 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, m;
-    int dx[4] = {0, 0, 1, -1}, dy[4] = {-1, 1, 0, 0};
-    cin >> n >> m;
+    int x, y;
+    int dx[4] = {0, 0, 1, -1}, dy[4] = {1, -1, 0, 0}; 
+    
+    cin >> y >> x;
+    string maze[y];
 
-    vector<string> maze(n);
-    vector<vector<int>> visited(n, vector<int>(m, 0));
-    for (int i = 0; i < n; i++)
-        cin >> maze[i];
-
+    for (auto &a : maze)
+        cin >> a;
+    
     queue<tuple<int, int, int>> q;
     q.emplace(0, 0, 1);
-    visited[0][0] = 1;
+    maze[0][0] = '0';
 
-    while(!q.empty()) 
+    while (!q.empty())
     {
-        auto [y, x, dist] = q.front();
-        int nextX, nextY;
+        auto [curY, curX, dist] = q.front();
         q.pop();
-        
-        if (y == n - 1 && x == m - 1)
+
+        if (curY == y - 1 && curX == x - 1)
         {
             cout << dist;
             break;
         }
-        
-        for (int i = 0; i < 4; i++) 
+
+        for (int i = 0; i < 4; i++)
         {
-            nextY = y + dy[i];
-            if ((nextY < 0) || (nextY >= n))
+            int nextY, nextX;
+
+            nextY = curY + dy[i];
+            if (nextY < 0 || nextY == y)
                 continue;
             
-            nextX = x + dx[i];
-            if ((nextX < 0) || (nextX >= m))
+            nextX = curX + dx[i];
+            if (nextX < 0 || nextX == x || maze[nextY][nextX] == '0')
                 continue;
 
-            if (maze[nextY][nextX] == '0')
-                continue;
-            if (!visited[nextY][nextX])
-            {
-                visited[nextY][nextX] = 1;
-                q.emplace(nextY, nextX, dist + 1);
-            }
+            q.emplace(nextY, nextX, dist + 1);
+            maze[nextY][nextX] = '0';
         }
     }
-
 
     return 0;
 }
