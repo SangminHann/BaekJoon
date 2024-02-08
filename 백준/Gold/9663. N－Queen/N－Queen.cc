@@ -1,50 +1,52 @@
 #include <iostream>
-#include <cmath>
+#define ABS(x) ((x) > 0 ? (x) : -(x))
 
 using namespace std;
 
-int is_valid(int board[], int num);
-void findCase(int board[], int num);
-int cnt, Max;
+int n, cnt = 0, board[16], visited[16] = {0,};
 
-int main()
+int isAttack(int y)
 {
-    ios_base::sync_with_stdio(false); cin.tie(NULL);
-
-    int board[16] = { 0 };
-    cnt = 0;
-    cin >> Max;
-
-    findCase(board, 1);
-    cout << cnt;
+    for (int i = 1; i < y; i++)
+    {
+        if (ABS(y - i) == ABS(board[y] - board[i]))
+            return 1;
+    }
 
     return 0;
 }
 
-int is_valid(int board[], int num)
+void nQueen(int y)
 {
-    for (int i = 1; i < num; i++)
-    {
-        if (board[i] == board[num])
-            return 0;
-        if (num - i == abs(board[i] - board[num]))
-            return 0;
-    }
-    return 1;
-}
-
-void findCase(int board[], int num)
-{
-    if (num > Max)
+    if (y > n)
     {
         ++cnt;
-        return;
+        return ;
     }
 
-    for (int i = 1; i <= Max; i++)
+    for (int i = 1; i <= n; i++)
     {
-        board[num] = i;
-        if (is_valid(board, num))
-            findCase(board, num + 1);
+        if (!visited[i])
+        {
+            board[y] = i;
+            if (!isAttack(y))
+            {
+                visited[i] = 1;
+                nQueen(y + 1);
+                visited[i] = 0;
+            }
+        }      
     }
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+
+    cin >> n;
+    nQueen(1);
+    cout << cnt;
+
+    return 0;
 }
