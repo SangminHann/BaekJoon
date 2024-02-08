@@ -9,7 +9,7 @@ int isAttack(int y)
 {
     for (int i = 1; i < y; i++)
     {
-        if (ABS(y - i) == ABS(board[y] - board[i]))
+        if (y - i == ABS(board[y] - board[i]))
             return 1;
     }
 
