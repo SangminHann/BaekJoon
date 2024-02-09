@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int visited[51] = {1, }, flag  = 0;
+int visited[51] = {1, };
 string num;
 deque<int> rst;
 
@@ -14,8 +14,10 @@ void backTracking(int idx)
         for (int i = 1; i <= rst.size(); i++)
             if (!visited[i])
                 return ;
-        flag = 1;
-        return;
+
+        for (auto &a : rst)
+            cout << a << " ";
+        exit(0);
     }
 
     int tmp = 0, cnt = 1;
@@ -31,8 +33,6 @@ void backTracking(int idx)
         visited[tmp] = 1;
         rst.emplace_back(tmp);
         backTracking(idx + cnt);
-        if (flag)
-            return;
         visited[tmp] = 0;
         rst.pop_back();
     }
@@ -45,9 +45,6 @@ int main()
 
     cin >> num;
     backTracking(0);
-
-    for (auto &a : rst)
-        cout << a << " ";
 
     return 0;
 }
