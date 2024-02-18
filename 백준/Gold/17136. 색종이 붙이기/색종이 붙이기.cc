@@ -19,16 +19,6 @@ int check(int y, int x, int n)
     return 1;
 }
 
-int isAllCovered()
-{
-    for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 10; j++)
-            if (paper[i][j])
-                return 0;
-
-    return 1;
-}
-
 void coverPaper(int y, int x, int n)
 {
     int eY = y + n - 1, eX = x + n - 1;
@@ -52,37 +42,31 @@ void backTracking(int y, int x, int cnt)
     if (minCnt < cnt)
         return;
 
-    if (isAllCovered())
+    while (!paper[y][x])
     {
-        minCnt = MIN(minCnt, cnt);
-        return ;
-    }
-
-    int i = y, j = x;
-
-    for (; i < 10; i++)
-    {
-        for (; j < 10; j++)
+        if (++x > 9)
         {
-            if (!paper[i][j])
-                continue;
-            for (int k = 5; k > 0; k--)
+            if (++y > 9)
             {
-                if (!colorPaper[k] || !check(i, j, k))
-                    continue;
-                
-                --colorPaper[k];
-                coverPaper(i, j, k);
-                backTracking(i, j + k, cnt + 1);
-                ++colorPaper[k];
-                uncoverPaper(i, j, k);
+                minCnt = MIN(minCnt, cnt);
+                return ;
             }
 
-            return ;
+            x = 0;
         }
-        j = 0;
     }
-    
+
+    for (int k = 5; k > 0; k--)
+    {
+        if (!colorPaper[k] || !check(y, x, k))
+            continue;
+        
+        --colorPaper[k];
+        coverPaper(y, x, k);
+        backTracking(y, x, cnt + 1);
+        ++colorPaper[k];
+        uncoverPaper(y, x, k);
+    }
 }
 
 int main()
