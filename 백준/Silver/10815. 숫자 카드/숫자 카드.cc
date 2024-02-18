@@ -1,25 +1,29 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
 
 int main()
 {
-	ios_base::sync_with_stdio(false); cin.tie(NULL);
-	int max = 20000001, num, tmp; int* arr = new int[max] {0};
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
 
-	cin >> num;
-	for (int i = 0; i < num; i++)
-	{
-		cin >> tmp;
-		arr[tmp + 10000000]++;
-	}
-	cin >> num;
-	for (int i = 0; i < num; i++)
-	{
-		cin >> tmp;
-		cout << arr[tmp + 10000000] << " ";
-	}
+    int n, m;
+    cin >> n;
 
-	return 0;
+    vector<int> card(n);
+    for (auto &a : card)
+        cin >> a;
+    
+    cin >> m;
+    vector<int> candidate(m);
+    for (auto &a : candidate)
+        cin >> a;
+    
+    sort(card.begin(), card.end());
+    for (auto &a : candidate)
+        cout << (binary_search(card.begin(), card.end(), a)) << ' ';
+
+    return 0;
 }
