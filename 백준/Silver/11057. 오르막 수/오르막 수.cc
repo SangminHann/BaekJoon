@@ -16,7 +16,7 @@ int main()
 
     comb = new int*[n + 1];
     for (int i = 0; i <= n; i++)
-        comb[i] = new int[n + 1] {0};
+        comb[i] = new int[i + 1] {0};
 
     for (int i = 0; i <= n; i++)
         comb[i][0] = 1;
