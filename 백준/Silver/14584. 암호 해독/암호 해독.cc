@@ -18,22 +18,10 @@ int main()
     {
         for (int i = 0; i < n; i++)
         {
-            int maxLength = (int)answer.length() - (int)word[i].length();
-
-            for (int j = 0; j <= maxLength; j++)
+            if (answer.find(word[i]) != string::npos)
             {
-                if (answer[j] == word[i][0])
-                {
-                    int k = 1;
-                    while (k < (int)word[i].length() && word[i][k] == answer[j + k])
-                        ++k;
-
-                    if (k == (int)word[i].length())
-                    {
-                        cout << answer;
-                        return 0;
-                    }
-                }
+                cout << answer;
+                return 0;
             }
         }
 
