@@ -34,7 +34,7 @@ int main()
 
     size_t s = 0, e = 0, maxIdx;
     int sum = 0, cnt = 0;
-    prime.reserve(283146);
+    prime.reserve(283147);
     cin >> n;
 
     eratosthenes();
