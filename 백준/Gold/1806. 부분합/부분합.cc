@@ -9,34 +9,22 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
 
-    int n, s, e, cnt = 1, target, sum, rst = 1e9;
+    int n, s = 0, e = 0, cnt = 0, target, sum = 0, rst = 1e9;
     cin >> n >> target;
 
     vector<int> num(n);
     for (auto &a : num)
         cin >> a;
-    
-    sum = num[0];
-    s = e = 0;
 
-    while (e != n)
-    {
-        if (s > e && e < n - 1)
+    while (e <= n && s <= n)
+    {    
+        if (sum < target)
         {
-            sum += num[++e];
+            sum += num[e++];
             ++cnt;
         }
-        
-        else if (sum < target)
-        {
-            if (++e < n)
-            {
-                sum += num[e];
-                ++cnt;
-            }
-        }
 
-        else if (sum >= target)
+        else
         {
             rst = MIN(rst, cnt);
             sum -= num[s++];
