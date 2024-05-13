@@ -1,34 +1,43 @@
 #include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
 int *visited;
 
-void dfs(vector<vector<int>> &computers, int n, int idx)
+void bfs(vector<vector<int>> &computers, int n, int x)
 {
-    visited[idx] = 1;
+    queue<int> q;
+    q.emplace(x);
+    visited[x] = 1;
     
-    for (int i = 0; i < n; i++)
+    while (!q.empty())
     {
-        if (i != idx && computers[idx][i] && !visited[i])
+        int s = q.front();
+        q.pop();
+        
+        for (int i = 0; i < n; i++)
         {
-            visited[i] = 1;
-            dfs(computers, n, i);
+            if (s != i && computers[s][i] && !visited[i])
+            {
+                q.emplace(i);
+                visited[i] = 1;
+            }
         }
-    }
+    }  
 }
 
-int solution(int n, vector<vector<int>> computers)
+int solution(int n, vector<vector<int>> computers) 
 {
     int answer = 0;
-    visited = new int[n]{0};
+    visited = new int[n] {0};
     
     for (int i = 0; i < n; i++)
     {
         if (!visited[i])
         {
-            dfs(computers, n, i);
+            bfs(computers, n, i);
             ++answer;
         }
     }
