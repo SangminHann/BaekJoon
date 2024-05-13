@@ -36,14 +36,10 @@ int solution(int n, vector<vector<int>> computers)
     
     for (int i = 0; i < (int)computers.size(); i++)
         find_root(i);
-    
-    int *network = new int[computers.size()] {0}, answer = 0;
-    
-    for (int i = 0; i < (int)computers.size(); i++)
-        network[uf[i]] = 1;
 
+    int answer = 0;
     for (int i = 0; i < (int)computers.size(); i++)
-        if (network[i])
+        if (uf[i] == i)
             ++answer;
 
     return answer;
