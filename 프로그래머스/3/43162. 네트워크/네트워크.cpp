@@ -3,44 +3,35 @@
 
 using namespace std;
 
-int *uf;
+int *visited;
 
-int find_root(int n)
+void dfs(vector<vector<int>> &computers, int n, int idx)
 {
-    if (uf[n] == n)
-        return n;
-    return uf[n] = find_root(uf[n]);
-}
-
-void union_find(int x, int y)
-{
-    int parentX, parentY;
+    visited[idx] = 1;
     
-    parentX = find_root(x);
-    parentY = find_root(y);
-    
-    uf[parentY] = parentX;
+    for (int i = 0; i < n; i++)
+    {
+        if (i != idx && computers[idx][i] && !visited[i])
+        {
+            visited[i] = 1;
+            dfs(computers, n, i);
+        }
+    }
 }
 
 int solution(int n, vector<vector<int>> computers)
 {
-    uf = new int[n];
-    
-    for (int i = 0; i < n; i++)
-        uf[i] = i;
-    
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            if (computers[i][j])
-                union_find(i, j);
-    
-    for (int i = 0; i < n; i++)
-        find_root(i);
-
     int answer = 0;
+    visited = new int[n]{0};
+    
     for (int i = 0; i < n; i++)
-        if (uf[i] == i)
+    {
+        if (!visited[i])
+        {
+            dfs(computers, n, i);
             ++answer;
-
+        }
+    }
+    
     return answer;
 }
