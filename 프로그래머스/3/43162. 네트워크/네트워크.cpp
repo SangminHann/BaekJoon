@@ -1,46 +1,43 @@
 #include <string>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
-int *visited;
+int *uf;
 
-void bfs(vector<vector<int>> &computers, int n, int x)
+int find_root(int n)
 {
-    queue<int> q;
-    q.emplace(x);
-    visited[x] = 1;
-    
-    while (!q.empty())
-    {
-        int s = q.front();
-        q.pop();
-        
-        for (int i = 0; i < n; i++)
-        {
-            if (s != i && computers[s][i] && !visited[i])
-            {
-                q.emplace(i);
-                visited[i] = 1;
-            }
-        }
-    }  
+    if (uf[n] == n)
+        return n;
+    return uf[n] = find_root(uf[n]);
 }
 
-int solution(int n, vector<vector<int>> computers) 
+void union_find(int x, int y)
 {
-    int answer = 0;
-    visited = new int[n] {0};
+    int parentX, parentY;
+    
+    parentX = find_root(x);
+    parentY = find_root(y);
+    
+    uf[parentY] = parentX;
+}
+
+int solution(int n, vector<vector<int>> computers)
+{
+    uf = new int[n];
     
     for (int i = 0; i < n; i++)
-    {
-        if (!visited[i])
-        {
-            bfs(computers, n, i);
-            ++answer;
-        }
-    }
+        uf[i] = i;
     
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            if (computers[i][j])
+                union_find(i, j);
+
+    int answer = 0;
+    for (int i = 0; i < n; i++)
+        if (uf[i] == i)
+            ++answer;
+
     return answer;
 }
