@@ -24,21 +24,21 @@ void union_find(int x, int y)
 
 int solution(int n, vector<vector<int>> computers)
 {
-    uf = new int[computers.size()];
+    uf = new int[n];
     
-    for (int i = 0; i < (int)computers.size(); i++)
+    for (int i = 0; i < n; i++)
         uf[i] = i;
     
-    for (int i = 0; i < (int)computers.size(); i++)
-        for (int j = 0; j < (int)computers.size(); j++)
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
             if (computers[i][j])
                 union_find(i, j);
     
-    for (int i = 0; i < (int)computers.size(); i++)
+    for (int i = 0; i < n; i++)
         find_root(i);
 
     int answer = 0;
-    for (int i = 0; i < (int)computers.size(); i++)
+    for (int i = 0; i < n; i++)
         if (uf[i] == i)
             ++answer;
 
