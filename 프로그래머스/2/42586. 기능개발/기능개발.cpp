@@ -4,30 +4,24 @@
 
 using namespace std;
 
-vector<int> solution(vector<int> progresses, vector<int> speeds) 
+vector<int> solution(vector<int> progresses, vector<int> speeds)
 {
     vector<int> answer;
-    int i = 0, j = 0, day, k = 1, flag;
-    
-    while (i < (int)progresses.size())
+
+    int day;
+    int max_day = 0;
+    for (int i = 0; i < progresses.size(); ++i)
     {
-        day = (100 - progresses[i]) / speeds[i] + (((100 - progresses[i]) % speeds[i]) ? 1 : 0 );
-        k = 0;
-        flag = 1;
-        j = i;
-        
-        while (j < (int)progresses.size())
-        {
-            progresses[j] += (day * speeds[j]);
-            if (progresses[j] >= 100 && flag)
-                k++;
-            else
-                flag = 0;
-            j++;
-        }
-        answer.emplace_back(k);
-        i += k;
+        day = (99 - progresses[i]) / speeds[i] + 1;
+
+        if (answer.empty() || max_day < day)
+            answer.push_back(1);
+        else
+            ++answer.back();
+
+        if (max_day < day)
+            max_day = day;
     }
-    
+
     return answer;
 }
