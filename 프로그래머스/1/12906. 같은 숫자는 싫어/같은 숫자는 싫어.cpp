@@ -1,16 +1,11 @@
 #include <vector>
-#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 vector<int> solution(vector<int> arr) 
 {
-    vector<int> answer;
+    arr.erase(unique(arr.begin(), arr.end()),arr.end());
     
-    answer.emplace_back(arr[0]);
-    for (auto &a : arr)
-        if (answer.back() != a)
-            answer.emplace_back(a);
-
-    return answer;
+    return arr;
 }
