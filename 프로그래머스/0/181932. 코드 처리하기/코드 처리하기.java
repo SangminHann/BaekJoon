@@ -1,6 +1,6 @@
 class Solution {
     public String solution(String code) {
-        String answer = "";
+        StringBuilder answer = new StringBuilder();
         boolean mode = false;
         
         for (int i = 0; i < code.length(); i++) {
@@ -8,18 +8,18 @@ class Solution {
                 mode = !mode;
             } else if (!mode) {
                 if (i % 2 == 0) {
-                    answer += code.charAt(i);
+                    answer.append(code.charAt(i));
                 }
             } else {
                 if (i % 2 == 1) {
-                    answer += code.charAt(i);
+                    answer.append(code.charAt(i));
                 }
             }
         }
         
-        if (answer == "")
-            answer = "EMPTY";
+        if (answer.length() == 0)
+            return "EMPTY";
 
-        return answer;
+        return answer.toString();
     }
 }
