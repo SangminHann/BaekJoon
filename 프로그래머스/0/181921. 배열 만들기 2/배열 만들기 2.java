@@ -27,12 +27,8 @@ class Solution {
             arr.add(-1);
         }
         
-        int[] answer = new int[arr.size()];
-        Integer[] tmpArr = arr.toArray(new Integer[0]);
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = tmpArr[i];
-        }
-        
-        return answer;
+        return arr.stream()
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
 }
