@@ -4,9 +4,8 @@ class Solution {
         
         for (int i = 0; i < number.length(); i++) {
             answer += number.charAt(i) - '0';
-            answer %= 9;
         }
         
-        return answer;
+        return answer % 9;
     }
 }
