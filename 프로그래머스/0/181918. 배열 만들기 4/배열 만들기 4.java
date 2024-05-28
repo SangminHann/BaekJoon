@@ -3,16 +3,12 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] arr) {
         Stack<Integer> stk = new Stack<>();
-        int i = 0;
         
-        while (i < arr.length) {
-            if (stk.isEmpty()) {
-                stk.push(arr[i++]);
-            } else if (stk.peek() < arr[i]) {
-                stk.push(arr[i++]);
-            } else {
+        for (int a : arr) {
+            while (!stk.isEmpty() && stk.peek() >= a) {
                 stk.pop();
             }
+            stk.push(a);
         }
         
         return stk.stream().mapToInt(Integer::intValue).toArray();
