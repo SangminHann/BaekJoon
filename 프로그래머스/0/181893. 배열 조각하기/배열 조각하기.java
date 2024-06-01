@@ -1,21 +1,16 @@
 import java.util.*;
-import java.util.stream.*;
 
 class Solution {
     public int[] solution(int[] arr, int[] query) {
-        
-        List<Integer> arrayList = Arrays.stream(arr)
-                                         .boxed()
-                                         .collect(Collectors.toCollection(ArrayList::new));
-        
+        int s = 0, e = arr.length - 1;
         for (int i = 0; i < query.length; i++) {
             if (i % 2 == 0) {
-                arrayList.subList(query[i] + 1, arrayList.size()).clear();
+                e = s + query[i];
             } else {
-                arrayList.subList(0, query[i]).clear();
+                s += query[i];
             }
         }
-        
-        return arrayList.stream().mapToInt(Integer::intValue).toArray();
+
+        return Arrays.copyOfRange(arr, s, e + 1);
     }
 }
