@@ -1,23 +1,23 @@
 class Solution {
     public int solution(int[] arr) {
-        int answer = 0, flag = 0;
+        int answer = 0;
+        boolean flag = true;
         
-        while (true) {
-            if (flag == 1) {
-                return answer - 1;
-            }
-            flag = 1;
+        while (flag) {
+            flag = false;
             
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i] >= 50 && arr[i] % 2 == 0) {
                     arr[i] /= 2;
-                    flag = 0;
+                    flag = true;
                 } else if (arr[i] < 50 && arr[i]  % 2 == 1) {
                     arr[i] = arr[i] * 2 + 1;
-                    flag = 0;
+                    flag = true;
                 }
             }
             answer++;
         }
+        
+        return answer - 1;
     }
 }
