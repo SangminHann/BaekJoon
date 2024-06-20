@@ -6,8 +6,8 @@ class Solution {
         
         while (i <= n * n) {
             answer[y][x] = i++;
-            
             int nx = x + dx[d], ny = y + dy[d];
+            
             if (nx < 0 || nx == n || ny < 0 || ny == n || answer[ny][nx] != 0) {
                 d = (d + 1) % 4;
                 nx = x + dx[d];
