@@ -1,47 +1,23 @@
 class Solution {
     public int[][] solution(int n) {
-        int[][] answer = new int[n][n], a = {{0, 0}, {0, n - 1}, {n - 1, n - 1}, {n - 1, 0}};
-        int[] d = {0, 1, 2, 3};
-        boolean flag = false;
+        int[][] answer = new int[n][n];
+        int[] dx = {1, 0, -1, 0}, dy = {0, 1, 0, -1};
+        int d = 0, x = 0, y = 0, i = 1;
         
-        for (int i = 1; i <= n * n; ) {
-            for (int j = 0; j < 4 && i <= n * n; j++) {
-                if (d[j] == 0) {
-                    flag = false;
-                    for (int k = a[0][1]; k < a[1][1]; k++) {
-                        answer[a[0][0]][k] = i++;
-                        flag = true;
-                    }
-                    if (flag)
-                        a[0][0]++; a[0][1]++;
-                } else if (d[j] == 1) {
-                    flag = false;
-                    for (int k = a[1][0]; k < a[2][0]; k++) {
-                        answer[k][a[1][1]] = i++;
-                        flag = true;
-                    }
-                    if (flag)
-                        a[1][1]--; a[1][0]++;
-                } else if (d[j] == 2) {
-                    flag = false;
-                    for (int k = a[2][1]; k > a[3][1]; k--) {
-                        answer[a[2][0]][k] = i++;
-                        flag = true;
-                    }
-                    if (flag)
-                        a[2][0]--; a[2][1]--;
-                } else {
-                    flag = false;
-                    for (int k = a[3][0]; k >= a[0][0]; k--) {
-                        answer[k][a[3][1]] = i++;
-                        flag = true;
-                    }
-                    if (flag)
-                        a[3][0]--; a[3][1]++;
-                }
-
+        while (i <= n * n) {
+            answer[y][x] = i++;
+            
+            int nx = x + dx[d], ny = y + dy[d];
+            if (nx < 0 || nx == n || ny < 0 || ny == n || answer[ny][nx] != 0) {
+                d = (d + 1) % 4;
+                nx = x + dx[d];
+                ny = y + dy[d];
             }
+            
+            y = ny;
+            x = nx;
         }
+        
         
         return answer;
     }
