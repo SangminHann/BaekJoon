@@ -1,7 +1,7 @@
 class Solution {
     
     public boolean isPrime(int tmp) {
-        for (int i = 2; i * i <= tmp; i++) {
+        for (int i = 2; i <= Math.sqrt(tmp); i++) {
             if (tmp % i == 0) {
                 return false;
             }
