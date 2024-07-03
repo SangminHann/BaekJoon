@@ -1,17 +1,15 @@
 import java.util.*;
 import java.io.*;
-import java.math.BigInteger;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        BigInteger a = BigInteger.valueOf(Long.parseLong(st.nextToken()));
-        long b, c, answer = 0;
+        long a, b, c, answer = 0;
+        a = Long.parseLong(st.nextToken());
         b = Long.parseLong(st.nextToken());
         c = (long)Math.sqrt(b);
-        BigInteger B = BigInteger.valueOf(b);
 
         boolean[] sieve = new boolean[(int)(c + 1)];
         for (int i = 2; i <= Math.sqrt(c); i++) {
@@ -29,15 +27,15 @@ public class Main {
                 continue;
             }
 
-            BigInteger tmp = BigInteger.valueOf(i), mul = BigInteger.valueOf(i);
+            long tmp, exp = 2;
 
             do {
-                tmp = tmp.multiply(mul);
-            } while (tmp.compareTo(a) == -1);
+                tmp = (long)Math.pow(i, exp++);
+            } while (tmp < a);
 
-            while (tmp.compareTo(B) != 1) {
+            while (tmp <= b) {
                 ++answer;
-                tmp = tmp.multiply(mul);
+                tmp = (long)Math.pow(i, exp++);
             }
         }
 
