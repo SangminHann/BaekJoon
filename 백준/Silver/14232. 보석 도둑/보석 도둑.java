@@ -24,7 +24,7 @@ public class Main {
 			}
 		}
 
-        System.out.println(cnt);
+        sb.insert(0, cnt + "\n");
 		System.out.println(sb);
 	}
 }
