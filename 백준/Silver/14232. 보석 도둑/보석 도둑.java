@@ -1,52 +1,30 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+		long k = Long.parseLong(br.readLine());
+		int cnt = 0;
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		for (int i = 2; i <= k; i++) {
+			if (i >= 1000000) {
+				sb.append(k);
+				cnt++;
+				break;
+			}
 
-        List<Long> bosuk = new LinkedList<>();
-        int answer = 0;
-        boolean flag = true;
+			while (k % i==0) {
+				k /= i;
+				cnt++;
+				sb.append(i).append(" ");
+			}
+		}
 
-        Long weight = Long.valueOf(br.readLine()), n = 2l;
-
-        while (n <= weight && n <= 1000000) {
-
-            flag = true;
-            Long tmp = (long)Math.sqrt(n);
-            for (Long l = 2l; l < tmp; l++) {
-                if (n % l == 0) {
-                    flag = false;
-                    break;
-                }
-            }
-
-            if (flag) {
-                while (weight % n == 0) {
-                    bosuk.add(n);
-                    weight /= n;
-                    ++answer;
-                }
-            }
-            ++n;
-        }
-
-        if (answer == 0) {
-            System.out.println(1);
-            System.out.println(weight);
-            return ;
-        }
-
-        if (weight != 1) {
-            ++answer;
-            bosuk.add(weight);
-        }
-        
-        System.out.println(answer);
-        for (Long l : bosuk) {
-            System.out.print(l + " ");
-        }
-    }
+        System.out.println(cnt);
+		System.out.println(sb);
+	}
 }
