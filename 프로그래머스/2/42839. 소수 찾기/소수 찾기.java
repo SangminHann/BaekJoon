@@ -4,8 +4,9 @@ class Solution {
     char[] ch, bf = new char[7];
 	List<Integer> arr = new LinkedList<>();
 	boolean[] visited;
+    int num;
 
-	void permutation(int idx, int num) {
+	void permutation(int idx) {
 		if (idx == num) {
 			StringBuilder sb = new StringBuilder();
 
@@ -23,7 +24,7 @@ class Solution {
 			}
 			bf[idx] = ch[i];
 			visited[i] = true;
-			permutation(idx + 1, num);
+			permutation(idx + 1);
 			visited[i] = false;
 		}
 	}
@@ -33,7 +34,8 @@ class Solution {
 		visited = new boolean[ch.length];
 
 		for (int i = 1; i <= ch.length; i++) {
-			permutation(0, i);
+            num = i;
+			permutation(0);
 		}
 
 		Set<Integer> set = new HashSet<>(arr);
