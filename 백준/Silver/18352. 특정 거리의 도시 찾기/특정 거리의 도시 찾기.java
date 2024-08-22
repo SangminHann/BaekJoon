@@ -48,16 +48,17 @@ public class Main {
             }
         }
 
-        int cnt = 0;
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= city; i++) {
             if (dist[i] == d) {
-                System.out.println(i);
-                ++cnt;
+                sb.append(i).append('\n');
             }
         }
 
-        if (cnt == 0) {
+        if (sb.isEmpty()) {
             System.out.println(-1);
+        } else {
+            System.out.println(sb);
         }
     }
 }
