@@ -3,20 +3,6 @@ import java.io.*;
 
 public class Main {
 
-    static class Node implements Comparable<Node> {
-        int v;
-        int cost;
-
-        public Node(int v, int cost) {
-            this.v = v;
-            this.cost = cost;
-        }
-
-        @Override
-        public int compareTo(Node other) {
-            return this.cost - other.cost;
-        }
-    }
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,21 +30,20 @@ public class Main {
             graph[a].add(b);
         }
 
-        PriorityQueue<Node> pq = new  PriorityQueue<>();
+        ArrayDeque<Integer> q = new ArrayDeque<>();
         dist[s] = 0;
-        pq.add(new Node(s, 0));
+        q.addFirst(s);
+        visited[s] = true;
 
-        while (!pq.isEmpty()) {
-            Node cur = pq.poll();
-            if (visited[cur.v]) {
-                continue;
-            }
+        while (!q.isEmpty()) {
+            int cur = q.removeLast();
 
-            visited[cur.v] = true;
-            for (int next : graph[cur.v]) {
-                if (!visited[next] && (dist[next] > dist[cur.v] + 1)) {
-                    dist[next] = dist[cur.v] + 1;
-                    pq.add(new Node(next, dist[next]));
+            visited[cur] = true;
+            for (int next : graph[cur]) {
+                if (!visited[next]) {
+                    dist[next] = dist[cur] + 1;
+                    q.addFirst(next);
+                    visited[next] = true;
                 }
             }
         }
