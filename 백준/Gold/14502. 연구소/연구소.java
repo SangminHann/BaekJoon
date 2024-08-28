@@ -6,7 +6,7 @@ public class Main {
     static List<int[]> virus = new ArrayList<>();
     static int[] dy = {0, 0, -1, 1}, dx = {1, -1, 0, 0};
     static int[][] map;
-    static int y, x, max = 0;
+    static int y, x, max = 0, safe = 0;
 
     public static void main(String[] args) throws IOException {
 
@@ -24,10 +24,13 @@ public class Main {
                 map[i][j] = Integer.parseInt(st.nextToken());
                 if (map[i][j] == 2) {
                     virus.add(new int[]{i, j});
+                } else if (map[i][j] == 0) {
+                    ++safe;
                 }
             }
         }
 
+        safe -= 3;
         crystallize(0, 0, 0);
         System.out.println(max);
     }
@@ -78,19 +81,13 @@ public class Main {
                     continue;
                 }
 
+                ++cnt;
                 v[ny][nx] = true;
                 q.add(new int[]{ny, nx});
             }
         }
 
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                if (map[i][j] == 0 && !v[i][j]) {
-                    ++cnt;
-                }
-            }
-        }
-
+        cnt = safe - cnt;
         max = (max > cnt) ? max : cnt;
     }
 }
