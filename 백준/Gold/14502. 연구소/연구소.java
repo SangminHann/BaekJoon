@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Main {
 
-    static List<int[]> virus = new ArrayList<>();
+    static List<int[]> virus = new LinkedList<>();
     static int[] dy = {0, 0, -1, 1}, dx = {1, -1, 0, 0};
     static int[][] map;
     static int y, x, max = 0, safe = 0;
@@ -58,7 +58,7 @@ public class Main {
 
     static void spread() {
 
-        ArrayDeque<int[]> q = new ArrayDeque<>(); // y x
+        Queue<int[]> q = new LinkedList<>(); // y x
         boolean[][] v = new boolean[y][x];
         int cnt = 0;
 
