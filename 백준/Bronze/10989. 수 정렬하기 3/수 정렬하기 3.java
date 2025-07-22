@@ -17,7 +17,7 @@ public class Main {
         
         for (int i = 1; i < 10001; i++) {
             for (int j = 0; j < arr[i]; j++) {
-                sb.append(String.valueOf(i) + '\n');
+                sb.append(String.valueOf(i)).append("\n");
             }
         }
 
