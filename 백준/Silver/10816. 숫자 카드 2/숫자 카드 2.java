@@ -1,25 +1,32 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
-import java.io.*;
+import java.io.IOException;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        Map<Long, Long> map = new HashMap<>();
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		br.readLine();
-		String[] card = br.readLine().split(" ");
-		Map<String, Integer> map = new HashMap<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            Long l = Long.valueOf(st.nextToken());
+            map.put(l, map.getOrDefault(l, 0L) + 1);
+        }
 
-		for (String s : card) {
-			map.put(s, map.getOrDefault(s, 0) + 1);
-		}
+        StringBuilder sb = new StringBuilder();
+        int m = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < m; i++) {
+            sb.append(
+                map.getOrDefault(
+                    Long.valueOf(st.nextToken()),
+                    0L
+                )
+            ).append(" ");
+        }
 
-		br.readLine();
-		String[] answer = br.readLine().split(" ");
-		StringBuilder sb = new StringBuilder();
-		for (String s : answer) {
-			sb.append(map.getOrDefault(s, 0)).append(" ");
-		}
-		
-		System.out.println(sb);
-	}
+        System.out.println(sb);
+    }
 }
