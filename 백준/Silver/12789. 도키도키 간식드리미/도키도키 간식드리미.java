@@ -14,25 +14,24 @@ public class Main {
         int s = 1;
         Deque<Integer> d = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
+            while (!d.isEmpty() && d.peekLast() == s) {
+                ++s;
+                d.removeLast();
+            }
             if (arr[i] != s) {
-                while (!d.isEmpty() && d.peekLast() == s) {
-                    ++s;
-                    d.removeLast();
-                }
                 d.addLast(arr[i]);
             } else {
                 ++s;
             }
         }
 
-        boolean flag = true;
         while (!d.isEmpty()) {
             if (d.pollLast() != s++) {
-                flag = false;
-                break;
+                System.out.println("Sad");
+                return;
             }
         }
 
-        System.out.println(flag ? "Nice" : "Sad");
+        System.out.println("Nice");
     }
 }
