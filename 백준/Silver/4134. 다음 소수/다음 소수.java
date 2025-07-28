@@ -5,11 +5,12 @@ import java.io.IOException;
 public class Main {
 
     public static boolean isPrime(long n) {
-        if (n <= 1) {
-            return false;
-        }
+        if (n <= 1) return false;
+        if (n == 2 || n == 3) return true;
+        if (n % 2 == 0) return false;
+
         long sqrt = (long) Math.sqrt(n);
-        for (long i = 2; i <= sqrt; i++) {
+        for (long i = 3; i <= sqrt; i += 2) {
             if (n % i == 0) return false;
         }
         return true;
