@@ -19,12 +19,9 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < m; i++) {
-            d.addLast(seqC[i]);
-        }
-
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < m; i++) {
+            d.addLast(seqC[i]);
             sb.append(d.pollFirst()).append(" ");
         }
 
