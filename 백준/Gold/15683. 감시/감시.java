@@ -7,19 +7,17 @@ public class Main {
 
     static int n, m, noSagak = 0, cnt = 0, rst = 65;
     static int[] dy = {0, 1, 0, -1}, dx = {1, 0, -1, 0};
-    static char[][] office;
-    static int[][] gamsiArr;
+    static int[][] office;
     static List<int[]> cctv;
 
     static int gamsi(int startY, int startX, int i, int idx) {
         int tmp = 0, y = startY + dy[i], x = startX + dx[i];
 
         while (y >= 0 && y < n && x >= 0 && x < m) {
-            if (office[y][x] == '6') {
+            if (office[y][x] == 6) {
                 break;
-            } else if (office[y][x] == '0') {
-                office[y][x] = '#';
-                gamsiArr[y][x] = idx;
+            } else if (office[y][x] ==  0) {
+                office[y][x] = idx;
                 ++tmp;
             }
             y += dy[i];
@@ -33,13 +31,10 @@ public class Main {
         int y = startY + dy[i], x = startX + dx[i];
 
         while (y >= 0 && y < n && x >= 0 && x < m) {
-            if (office[y][x] == '6') {
+            if (office[y][x] == 6) {
                 break;
-            } else if (office[y][x] == '#') {
-                if (gamsiArr[y][x] == idx) {
-                    office[y][x] = '0';
-                    gamsiArr[y][x] = 0;
-                }
+            } else if (office[y][x] == idx) {
+                office[y][x] = 0;
             }
             y += dy[i];
             x += dx[i];
@@ -55,81 +50,80 @@ public class Main {
         }
 
         int[] coor = cctv.get(idx);
-        char type = office[coor[0]][coor[1]];
 
-        switch (type) {
-            case '1':
+        switch (office[coor[0]][coor[1]]) {
+            case 1:
                 for (int i = 0; i < 4; i++) {
                     int tmp = 0;
                     
-                    tmp = gamsi(coor[0], coor[1], i, idx + 1);
+                    tmp = gamsi(coor[0], coor[1], i, idx + 7);
                     cnt += tmp;
 
                     recursive(idx + 1);
                     cnt -= tmp;
-                    reverseGamsi(coor[0], coor[1], i, idx + 1);
+                    reverseGamsi(coor[0], coor[1], i, idx + 7);
                 }
                 break;
-            case '2':
+            case 2:
                 for (int i = 0; i < 2; i++) {
                     int tmp = 0;
 
-                    tmp = gamsi(coor[0], coor[1], i, idx + 1);
-                    tmp += gamsi(coor[0], coor[1], i + 2, idx + 1);
+                    tmp = gamsi(coor[0], coor[1], i, idx + 7);
+                    tmp += gamsi(coor[0], coor[1], i + 2, idx + 7);
                     cnt += tmp;
 
                     recursive(idx + 1);
                     cnt -= tmp;
-                    reverseGamsi(coor[0], coor[1], i, idx + 1);
-                    reverseGamsi(coor[0], coor[1], i + 2, idx + 1);
+                    reverseGamsi(coor[0], coor[1], i, idx + 7);
+                    reverseGamsi(coor[0], coor[1], i + 2, idx + 7);
                 }
                 break;
-            case '3':
+            case 3:
                 for (int i = 0; i < 4; i++) {
                     int tmp = 0;
 
-                    tmp = gamsi(coor[0], coor[1], i, idx + 1);
-                    tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
+                    tmp = gamsi(coor[0], coor[1], i, idx + 7);
+                    tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 7);
                     cnt += tmp;
 
                     recursive(idx + 1);
                     cnt -= tmp;
-                    reverseGamsi(coor[0], coor[1], i, idx + 1);
-                    reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
+                    reverseGamsi(coor[0], coor[1], i, idx + 7);
+                    reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 7);
                 }
                 break;
-            case '4':
+            case 4:
                 for (int i = 0; i < 4; i++) {
-                    int tmp = 0, y;
+                    int tmp = 0;
 
-                    tmp = gamsi(coor[0], coor[1], i, idx + 1);
-                    tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-                    tmp += gamsi(coor[0], coor[1], (i + 2) % 4, idx + 1);
+                    tmp = gamsi(coor[0], coor[1], i, idx + 7);
+                    tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 7);
+                    tmp += gamsi(coor[0], coor[1], (i + 2) % 4, idx + 7);
                     cnt += tmp;
                     
                     recursive(idx + 1);
                     cnt -= tmp;
-                    reverseGamsi(coor[0], coor[1], i, idx + 1);
-                    reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-                    reverseGamsi(coor[0], coor[1], (i + 2) % 4, idx + 1);
+                    reverseGamsi(coor[0], coor[1], i, idx + 7);
+                    reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 7);
+                    reverseGamsi(coor[0], coor[1], (i + 2) % 4, idx + 7);
                 }
                 break;
         
             default:
                 int tmp = 0;
 
-                tmp = gamsi(coor[0], coor[1], 0, idx + 1);
-                tmp += gamsi(coor[0], coor[1], 1, idx + 1);
-                tmp += gamsi(coor[0], coor[1], 2, idx + 1);
-                tmp += gamsi(coor[0], coor[1], 3, idx + 1);
+                tmp = gamsi(coor[0], coor[1], 0, idx + 7);
+                tmp += gamsi(coor[0], coor[1], 1, idx + 7);
+                tmp += gamsi(coor[0], coor[1], 2, idx + 7);
+                tmp += gamsi(coor[0], coor[1], 3, idx + 7);
                 cnt += tmp;
 
                 recursive(idx + 1);
                 cnt -= tmp;
-                reverseGamsi(coor[0], coor[1], 0, idx + 1);
-                reverseGamsi(coor[0], coor[1], 1, idx + 1);
-                reverseGamsi(coor[0], coor[1], 2, idx + 1);
-                reverseGamsi(coor[0], coor[1], 3, idx + 1);
+                reverseGamsi(coor[0], coor[1], 0, idx + 7);
+                reverseGamsi(coor[0], coor[1], 1, idx + 7);
+                reverseGamsi(coor[0], coor[1], 2, idx + 7);
+                reverseGamsi(coor[0], coor[1], 3, idx + 7);
                 break;
         }
     }
@@ -140,19 +134,18 @@ public class Main {
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        office = new char[n][m];
-        gamsiArr = new int[n][m];
+        office = new int[n][m];
         cctv = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
-            st= new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
 
             for (int j = 0; j < m; j++) {
-                char tmp = st.nextToken().charAt(0);
+                int tmp = Integer.parseInt(st.nextToken());
 
-                if (tmp == '6') {
+                if (tmp == 6) {
                     ++noSagak;
-                } else if (tmp != '0') {
+                } else if (tmp != 0) {
                     cctv.add(new int[]{i, j});
                     ++noSagak;
                 }
