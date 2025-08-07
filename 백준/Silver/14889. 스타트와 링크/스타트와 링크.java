@@ -1,70 +1,55 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
 import java.io.IOException;
 
 public class Main {
-
-    static boolean[] isPicked = new boolean[20];
-    static int[] max = {0, 0, 3, 10, 35, 126, 462, 1716, 6435, 24310, 92378}, link = new int[20], start = new int[20];
-    static int[][] status = new int[20][];
-    static int n, min = Integer.MAX_VALUE, cnt = 0;;
-
-    public static void recursive(int depth, int s, int idx) {
-        
-        if (depth * 2 == n) {
-            for (int i = 0, j = 0; i < n; i++) {
-                if (!isPicked[i]) {
-                    link[j++] = i;
-                }
-            }
-
-            int l = 0;
-            for (int i = 0; i < depth; i++) {
-                for (int j = 0; j < depth; j++) {
-                    l += status[link[i]][link[j]];
-                }
-            }
-
-            min = Math.min(min, Math.abs(s - l));
-
-            if (++cnt == max[depth]) {
-                System.out.println(min);
-                System.exit(0);
-            }
-
-            return;
-        }
-
-        for (int i = idx; i < n; i++) {
-            isPicked[i] = true;
-            start[depth] = i;
-            int tmp = 0;
-
-            for (int j = 0; j < depth; j++) {
-                tmp += status[i][start[j]];
-                tmp += status[start[j]][i];
-            }
-
-            recursive(depth + 1, s + tmp, i + 1);
-            isPicked[i] = false;
-        }
-
-    }
+    static int[][] stats;
+    static boolean[] check;
+    static int N;
+    static int ans = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
 
-        isPicked = new boolean[n];
-        link = new int[n / 2];
-        start = new int[n /2];
-        for (int i = 0; i < n; i++) {
-            status[i] = Arrays.stream(br.readLine().split(" "))
-                            .mapToInt(Integer::parseInt)
-                            .toArray();
+        N = Integer.parseInt(br.readLine());
+        stats = new int[N + 1][N + 1];
+        check = new boolean[N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            String[] tokens = br.readLine().split(" ");
+            for (int j = 1; j <= N; j++) {
+                stats[i][j] = Integer.parseInt(tokens[j - 1]);
+            }
         }
 
-        recursive(0, 0, 0);
+        DFS(0, 1);
+        System.out.println(ans);
+    }
+
+    static void DFS(int x, int pos) {
+        if (x == N / 2) {
+            int start = 0;
+            int link = 0;
+
+            for (int i = 1; i <= N; i++) {
+                for (int j = 1; j <= N; j++) {
+                    if (check[i] && check[j]) {
+                        start += stats[i][j];
+                    }
+                    if (!check[i] && !check[j]) {
+                        link += stats[i][j];
+                    }
+                }
+            }
+
+            ans = Math.min(ans, Math.abs(start - link));
+            return;
+        }
+
+        for (int i = pos; i <= N; i++) {
+            check[i] = true;
+            DFS(x + 1, i + 1);
+            check[i] = false;
+        }
     }
 }
