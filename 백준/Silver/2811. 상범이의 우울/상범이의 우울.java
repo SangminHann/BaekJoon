@@ -12,7 +12,7 @@ public class Main {
         List<int[]> arr = new ArrayList<>();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        boolean[] check = new boolean[n];
+        int[] check = new int[n];
 
         for (int i = 0; i < n; i++) {
             if (st.nextToken().charAt(0) == '-') {
@@ -42,7 +42,7 @@ public class Main {
 
         for (int i = 0; i < arr.size(); i++) {
             for (int j = arr.get(i)[1] * 2 < arr.get(i)[0] ? arr.get(i)[0] - arr.get(i)[1] * 2 : 0; j < arr.get(i)[0]; j++) {
-                check[j] = true;
+                ++check[j];
             }
         }
 
@@ -51,20 +51,19 @@ public class Main {
             int j = arr.get(i)[1] * 3 < arr.get(i)[0] ? arr.get(i)[0] - arr.get(i)[1] * 3 : 0;
             int k = arr.get(i)[1] * 2 < arr.get(i)[0] ? arr.get(i)[0] - arr.get(i)[1] * 2 : 0;
 
-            boolean[] tmp = new boolean[n];
-            for (int l = 0; l < n; l++) {
-                tmp[l] = check[l];
-            }
-
             for (int l = j; l < k; l++) {
-                tmp[l] = true;
+                ++check[l];
             }
 
             int cnt = 0;
             for (int l = 0; l < n; l++) {
-                if(tmp[l]) {
+                if(check[l] != 0) {
                     ++cnt;
                 }
+            }
+
+            for (int l = j; l < k; l++) {
+                --check[l];
             }
 
             rst = Integer.max(cnt, rst);
