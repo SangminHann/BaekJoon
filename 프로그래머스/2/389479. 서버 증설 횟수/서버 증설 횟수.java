@@ -20,7 +20,6 @@ class Solution {
                 arr.add(i);
                 ++cnt;
             }
-            // System.out.println("hour " + i + " " + arr.size() + " " + tmp + " " + cnt);
         }
         
         return cnt;
