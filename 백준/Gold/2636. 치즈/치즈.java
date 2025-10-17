@@ -4,122 +4,63 @@ import java.util.*;
 import java.io.IOException;
 
 public class Main {
-
-    static List<int[]> cheese = new ArrayList<>(), melt = new LinkedList<>();
-    static List<List<int[]>> empty = new ArrayList<>();
-    static int[][] arr;
-    static int[] dy = {1, -1, 0, 0}, dx = {0, 0, 1, -1};
-    static int y, x, cnt = 0;
-
-    static void outside(int _y, int _x, int change) {
-        for (int i = 0; i < 4; i++) {
-            int nextY = _y + dy[i], nextX = _x + dx[i];
-
-            if (nextY < 0 || nextY == y || nextX < 0 || nextX == x) {
-                continue;
-            }
-
-            if (arr[nextY][nextX] == change) {
-                arr[nextY][nextX] = 2;
-                outside(nextY, nextX, change);
-            } 
-        }
-    }
-
-    static void emptyPlace(int _y, int _x, int idx) {
-        
-        arr[_y][_x] = 3;
-        empty.get(idx).add(new int[]{_y, _x});
-
-        for (int i = 0; i < 4; i++) {
-            int nextY = _y + dy[i], nextX = _x + dx[i];
-
-            if (arr[nextY][nextX] == 0) {
-                emptyPlace(nextY, nextX, idx);
-            }
-        }
-    }
-
-    static void melting() {
-        cnt = 0;
-
-        for (int i = 0; i < cheese.size(); i++) {
-            int[] tmp = cheese.get(i);
-            for (int j = 0; j < 4; j++) {
-                if (arr[tmp[0] + dy[j]][tmp[1] + dx[j]] == 2) {
-                    melt.add(new int[]{tmp[0], tmp[1]});
-                    ++cnt;
-                    cheese.remove(i--);
-                    break;
-                }
-            }
-        }
-
-        while (!melt.isEmpty()) {
-            arr[melt.get(0)[0]][melt.get(0)[1]] = 2;
-            melt.remove(0);
-        }
-
-        if (!empty.isEmpty()) {
-            for (int i = 0; i < empty.size(); i++) {
-                List<int[]> tmpList = empty.get(i);
-                boolean flag = false;
-
-                for (int[] tmp : tmpList) {
-                    for (int j = 0; j < 4; j++) {
-                        if (arr[tmp[0] + dy[j]][tmp[1] + dx[j]] == 2) {
-                            outside(tmp[0], tmp[1], 3);
-                            empty.remove(i--);
-                            flag = true;
-                            break;
-                        }
-                    }
-
-                    if (flag) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        y = Integer.parseInt(st.nextToken());
-        x = Integer.parseInt(st.nextToken());
+        
+        int y = Integer.parseInt(st.nextToken()), x = Integer.parseInt(st.nextToken()), cnt = 0, answer = 0, time = 0;
+        int[] dy = {1, -1, 0, 0}, dx = {0, 0, -1, 1};
+        int[][] arr = new int[y][x];
 
-        arr = new int[y][x];
         for (int i = 0; i < y; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < x; j++) {
                 int tmp = Integer.parseInt(st.nextToken());
                 if (tmp == 1) {
-                    cheese.add(new int[]{i, j});
+                    ++cnt;
                 }
                 arr[i][j] = tmp;
             }
         }
 
-        outside(0, 0, 0);
-        int idx = 0;
+        List<int[]> melt = new LinkedList<>();
+        Deque<int[]> dq = new ArrayDeque<>();
+        dq.addLast(new int[]{0, 0});
+        arr[0][0] = 2;
 
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                if (arr[i][j] == 0) {
-                    empty.add(new LinkedList<>());
-                    emptyPlace(i, j, idx);
-                    idx++;
+        while (cnt != 0) {
+            time++;
+            while(!dq.isEmpty()) {
+                int[] tmp = dq.pollFirst();
+
+                for (int i = 0; i < 4; i++) {
+                    int nextY = tmp[0] + dy[i], nextX = tmp[1] + dx[i];
+
+                    if (nextY == -1 || nextY == y || nextX == -1 || nextX == x || arr[nextY][nextX] == 2) {
+                        continue;
+                    }
+
+                    if (arr[nextY][nextX] == 0) {
+                        arr[nextY][nextX] = 2;
+                        dq.addLast(new int[]{nextY, nextX});
+                    } else if (arr[nextY][nextX] == 1) {
+                        arr[nextY][nextX] = 3;
+                        melt.add(new int[]{nextY, nextX});
+                    }
                 }
+            }
+
+            answer = melt.size();
+            cnt -= answer;
+            while (!melt.isEmpty()) {
+                int[] tmp = melt.get(0);
+                melt.remove(0);
+
+                arr[tmp[0]][tmp[1]] = 2;
+                dq.addLast(new int[]{tmp[0], tmp[1]});
             }
         }
 
-        int time = 0;
-        while (!cheese.isEmpty()) {
-            melting();
-            ++time;
-        }
-
-        System.out.println(time + "\n" + cnt);
+        System.out.println(time + "\n" + answer);
     }
 }
