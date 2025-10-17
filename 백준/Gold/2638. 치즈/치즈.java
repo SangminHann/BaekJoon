@@ -69,9 +69,6 @@ public class Main {
                 }
             }
 
-
-            arr[melt.peekFirst()[0]][melt.peekFirst()[1]] = 2;
-
             while (!melt.isEmpty()) {
                 int[] tmp = melt.pollFirst();
                 arr[tmp[0]][tmp[1]] = 2;
@@ -83,9 +80,7 @@ public class Main {
                         continue;
                     }
 
-                    arr[nextY][nextX] = 2;
                     melt.addLast(new int[]{nextY, nextX});
-
                 }
             }
         }
