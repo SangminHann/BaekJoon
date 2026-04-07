@@ -1,62 +1,50 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken()), t = Integer.parseInt(st.nextToken());
-        
-        boolean[] student = new boolean[n + 1];
+
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+        ArrayList<Integer>[] graph = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
         int[] indegree = new int[n + 1];
-        List<Integer>[] arr = new ArrayList[n + 1];
-        for (int i = 1; i <= n; i++) {
-            arr[i] = new ArrayList<>();
-        }
-
-        while (t-- > 0) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int prev = Integer.parseInt(st.nextToken()), cur = Integer.parseInt(st.nextToken());
-            student[prev] = true;
-            student[cur] = true;
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            arr[prev].add(cur);
-            indegree[cur]++;
+            graph[a].add(b);
+            indegree[b]++;
         }
 
-        Deque<Integer> dq = new ArrayDeque<>();
+        Queue<Integer> q = new ArrayDeque<>();
         for (int i = 1; i <= n; i++) {
-            if (student[i] && indegree[i] == 0) {
-                dq.addLast(i);
+            if (indegree[i] == 0) {
+                q.offer(i);
             }
         }
 
         StringBuilder sb = new StringBuilder();
+        while (!q.isEmpty()) {
+            int now = q.poll();
+            sb.append(now).append(" ");
 
-        while (!dq.isEmpty()) {
-            int cur = dq.pollFirst();
+            for (int next : graph[now]) {
+                indegree[next]--;
 
-            sb.append(cur).append(" ");
-            for (int i : arr[cur]) {
-                indegree[i]--;
-                if (indegree[i] == 0) {
-                    dq.addLast(i);
+                if (indegree[next] == 0) {
+                    q.offer(next);
                 }
             }
         }
 
-        for (int i = 1; i <= n; i++) {
-            if (!student[i]) {
-                sb.append(i).append(" ");
-            }
-        }
-        
         System.out.println(sb);
     }
 }
