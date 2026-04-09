@@ -30,6 +30,9 @@ public class Main {
 
         while(!pq.isEmpty()) {
             int[] cur = pq.poll();
+
+            if (cur[2] > visit[cur[0]][cur[1]]) continue;
+
             if (cur[0] == n - 1 && cur[1] == n - 1) {
                 System.out.println(cur[2]);
                 return ;
