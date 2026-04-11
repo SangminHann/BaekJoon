@@ -1,216 +1,55 @@
-// import java.io.BufferedReader;
-// import java.io.InputStreamReader;
-// import java.util.*;
-// import java.io.IOException;
-
-// public class Main {
-
-//     static int n, m, noSagak = 0, cnt = 0, rst = 65;
-//     static int[] dy = {0, 1, 0, -1}, dx = {1, 0, -1, 0};
-//     static char[][] office;
-//     static int[][] gamsiArr;
-//     static List<int[]> cctv;
-
-//     static int gamsi(int startY, int startX, int i, int idx) {
-//         int tmp = 0, y = startY + dy[i], x = startX + dx[i];
-
-//         while (y >= 0 && y < n && x >= 0 && x < m) {
-//             if (office[y][x] == '6') {
-//                 break;
-//             } else if (office[y][x] == '0') {
-//                 office[y][x] = '#';
-//                 gamsiArr[y][x] = idx;
-//                 ++tmp;
-//             }
-//             y += dy[i];
-//             x += dx[i];
-//         }
-
-//         return tmp;
-//     }
-
-//     static void reverseGamsi(int startY, int startX, int i, int idx) {
-//         int y = startY + dy[i], x = startX + dx[i];
-
-//         while (y >= 0 && y < n && x >= 0 && x < m) {
-//             if (office[y][x] == '6') {
-//                 break;
-//             } else if (office[y][x] == '#') {
-//                 if (gamsiArr[y][x] == idx) {
-//                     office[y][x] = '0';
-//                     gamsiArr[y][x] = 0;
-//                 }
-//             }
-//             y += dy[i];
-//             x += dx[i];
-//         }
-//     }
-
-//     static void recursive(int idx) {
-//         if (cctv.size() == idx) {
-//             int tmp = m * n - noSagak - cnt;
-
-//             rst = rst > tmp ? tmp : rst;
-//             return;
-//         }
-
-//         int[] coor = cctv.get(idx);
-//         char type = office[coor[0]][coor[1]];
-
-//         switch (type) {
-//             case '1':
-//                 for (int i = 0; i < 4; i++) {
-//                     int tmp = 0;
-                    
-//                     tmp = gamsi(coor[0], coor[1], i, idx + 1);
-//                     cnt += tmp;
-
-//                     recursive(idx + 1);
-//                     cnt -= tmp;
-//                     reverseGamsi(coor[0], coor[1], i, idx + 1);
-//                 }
-//                 break;
-//             case '2':
-//                 for (int i = 0; i < 2; i++) {
-//                     int tmp = 0;
-
-//                     tmp = gamsi(coor[0], coor[1], i, idx + 1);
-//                     tmp += gamsi(coor[0], coor[1], i + 2, idx + 1);
-//                     cnt += tmp;
-
-//                     recursive(idx + 1);
-//                     cnt -= tmp;
-//                     reverseGamsi(coor[0], coor[1], i, idx + 1);
-//                     reverseGamsi(coor[0], coor[1], i + 2, idx + 1);
-//                 }
-//                 break;
-//             case '3':
-//                 for (int i = 0; i < 4; i++) {
-//                     int tmp = 0;
-
-//                     tmp = gamsi(coor[0], coor[1], i, idx + 1);
-//                     tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-//                     cnt += tmp;
-
-//                     recursive(idx + 1);
-//                     cnt -= tmp;
-//                     reverseGamsi(coor[0], coor[1], i, idx + 1);
-//                     reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-//                 }
-//                 break;
-//             case '4':
-//                 for (int i = 0; i < 4; i++) {
-//                     int tmp = 0;
-
-//                     tmp = gamsi(coor[0], coor[1], i, idx + 1);
-//                     tmp += gamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-//                     tmp += gamsi(coor[0], coor[1], (i + 2) % 4, idx + 1);
-//                     cnt += tmp;
-                    
-//                     recursive(idx + 1);
-//                     cnt -= tmp;
-//                     reverseGamsi(coor[0], coor[1], i, idx + 1);
-//                     reverseGamsi(coor[0], coor[1], (i + 1) % 4, idx + 1);
-//                     reverseGamsi(coor[0], coor[1], (i + 2) % 4, idx + 1);
-//                 }
-//                 break;
-        
-//             default:
-//                 int tmp = 0;
-
-//                 tmp = gamsi(coor[0], coor[1], 0, idx + 1);
-//                 tmp += gamsi(coor[0], coor[1], 1, idx + 1);
-//                 tmp += gamsi(coor[0], coor[1], 2, idx + 1);
-//                 tmp += gamsi(coor[0], coor[1], 3, idx + 1);
-//                 cnt += tmp;
-
-//                 recursive(idx + 1);
-//                 cnt -= tmp;
-//                 reverseGamsi(coor[0], coor[1], 0, idx + 1);
-//                 reverseGamsi(coor[0], coor[1], 1, idx + 1);
-//                 reverseGamsi(coor[0], coor[1], 2, idx + 1);
-//                 reverseGamsi(coor[0], coor[1], 3, idx + 1);
-//                 break;
-//         }
-//     }
-
-//     public static void main(String[] args) throws IOException {
-//         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//         StringTokenizer st = new StringTokenizer(br.readLine());
-
-//         n = Integer.parseInt(st.nextToken());
-//         m = Integer.parseInt(st.nextToken());
-//         office = new char[n][m];
-//         gamsiArr = new int[n][m];
-//         cctv = new ArrayList<>();
-
-//         for (int i = 0; i < n; i++) {
-//             st= new StringTokenizer(br.readLine());
-
-//             for (int j = 0; j < m; j++) {
-//                 char tmp = st.nextToken().charAt(0);
-
-//                 if (tmp == '6') {
-//                     ++noSagak;
-//                 } else if (tmp != '0') {
-//                     cctv.add(new int[]{i, j});
-//                     ++noSagak;
-//                 }
-//                 office[i][j] = tmp;
-//             }
-//         }
-
-//         recursive(0);
-
-//         System.out.println(rst);
-//     }
-// }
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 import java.io.IOException;
-import java.util.*;
 
 public class Main {
 
-    static List<List<Node>> graph = new ArrayList<>();
+    static int n;
     static int[] dist;
+    static boolean[] visit;
+    static List<Node>[] arr;
 
     static class Node implements Comparable<Node> {
-        int to, w;
+        int v, cost;
 
-        public Node(int to, int w) {
-            this.to = to;
-            this.w = w;
+        public Node(int v, int cost) {
+            this.v = v;
+            this.cost = cost;
         }
-
-        @Override
+    
         public int compareTo(Node o) {
-            return this.w - o.w;
+            return this.cost - o.cost;
         }
     }
 
-    public static void dijk(int start, int end) {
+    static void dijkstra(int s, int end) {
+        Arrays.fill(visit, false);
+        Arrays.fill(dist, Integer.MAX_VALUE);
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        dist[start] = 0;
-        pq.add(new Node(start, 0));
+
+        pq.add(new Node(s, 0));
+        dist[s] = 0;
 
         while (!pq.isEmpty()) {
             Node cur = pq.poll();
-            
-            if (dist[cur.to] < cur.w) {
+            if (visit[cur.v]) {
                 continue;
             }
 
-            if (cur.to == end) {
-                return;
+            visit[cur.v] = true;
+            if (cur.v == end) {
+                break;
             }
 
-            for (Node next : graph.get(cur.to)) {
-                int d = dist[cur.to] + next.w;
-                if (dist[next.to] > d) {
-                    dist[next.to] = d;
-                    pq.add(new Node(next.to, d));
+            for (Node next : arr[cur.v]) {
+                if (!visit[next.v] && dist[next.v] > dist[cur.v] + next.cost) {
+                    dist[next.v] = dist[cur.v] + next.cost;
+                    pq.add(new Node(next.v, dist[next.v]));
                 }
             }
         }
@@ -219,84 +58,41 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        int e = Integer.parseInt(st.nextToken());
+        dist = new int[n + 1];
+        visit = new boolean[n + 1];
 
-        int n = Integer.parseInt(st.nextToken()), e = Integer.parseInt(st.nextToken());
-        
-        for (int i = 0; i < n + 1; i++) {
-            graph.add(new ArrayList<>());
+        arr = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++) {
+            arr[i] = new ArrayList<>();
         }
-        
+
         while (e-- > 0) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken()), b = Integer.parseInt(st.nextToken()), d = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken()), w = Integer.parseInt(st.nextToken()), cost = Integer.parseInt(st.nextToken());
 
-            graph.get(a).add(new Node(b, d));
-            graph.get(b).add(new Node(a, d));
+            arr[v].add(new Node(w, cost));
+            arr[w].add(new Node(v, cost));
         }
 
         st = new StringTokenizer(br.readLine());
-        int rst1 = 0, rst2 = 0, v1 = Integer.parseInt(st.nextToken()), v2 = Integer.parseInt(st.nextToken());
 
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(1, v1);
-        if (dist[v1] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
+        int v1 = Integer.parseInt(st.nextToken()), v2 = Integer.parseInt(st.nextToken());
+        
+        dijkstra(v2, v1);
+        long cand1 = dist[v1], cand2 = dist[v1];
+        dijkstra(1, v1);
+        cand1 += dist[v1];
+        dijkstra(v2, n);
+        cand1 += dist[n];
 
-        rst1 += dist[v1];
+        dijkstra(1, v2);
+        cand2 += dist[v2];
+        dijkstra(v1, n);
+        cand2 += dist[n];
 
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(v1, v2);
-        if (dist[v2] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
-
-        rst1 += dist[v2];
-
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(v2, n);
-        if (dist[n] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
-
-        rst1 += dist[n];
-
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(1, v2);
-        if (dist[v2] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
-
-        rst2 += dist[v2];
-
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(v2, v1);
-        if (dist[v1] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
-
-        rst2 += dist[v1];
-
-        dist = new int[n + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dijk(v1, n);
-        if (dist[n] == Integer.MAX_VALUE) {
-            System.out.println(-1);
-            return ;
-        }
-
-        rst2 += dist[n];
-
-        System.out.println(Integer.min(rst1, rst2));
+        long rst = (cand1 > cand2) ? cand2 : cand1;
+        System.out.println((rst >= Integer.MAX_VALUE) ? -1 : rst);
     }
 }
