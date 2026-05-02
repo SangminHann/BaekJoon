@@ -1,22 +1,39 @@
 import java.util.*;
 
 class Solution {
-    static int target;
+    int target;
 
-    public int solution(int coin, int[] cards) {
-        int n = cards.length;
-        target = n + 1;
+    private boolean usePair(Set<Integer> set1, Set<Integer> set2) {
+        int a = -1, b = -1;
 
-        Set<Integer> hand = new HashSet<>();
-        Set<Integer> draw = new HashSet<>();
+        for (int card : set1) {
+            b = target - card;
 
-        int idx = 0;
-
-        for (int i = 0; i < n / 3; i++) {
-            hand.add(cards[idx++]);
+            if (set2.contains(b)) {
+                a = card;
+                break;
+            }
         }
 
-        int round = 1;
+        if (a == -1) {
+            return false;
+        }
+
+        set1.remove(a);
+        set2.remove(b);
+
+        return true;
+    }
+    
+    public int solution(int coin, int[] cards) {
+        int n = cards.length, idx = 0 ,round = 1;
+        target = n + 1;
+
+        Set<Integer> hand = new HashSet<>(), draw = new HashSet<>();
+
+        while (idx < n / 3) {
+            hand.add(cards[idx++]);
+        }
 
         while (idx < n) {
             draw.add(cards[idx++]);
@@ -36,29 +53,5 @@ class Solution {
         }
 
         return round;
-    }
-
-    private boolean usePair(Set<Integer> set1, Set<Integer> set2) {
-        int removeA = -1;
-        int removeB = -1;
-
-        for (int card : set1) {
-            int pair = target - card;
-
-            if (set2.contains(pair)) {
-                removeA = card;
-                removeB = pair;
-                break;
-            }
-        }
-
-        if (removeA == -1) {
-            return false;
-        }
-
-        set1.remove(removeA);
-        set2.remove(removeB);
-
-        return true;
     }
 }
