@@ -1,66 +1,59 @@
 class Solution {
     
-    int[][] Users;
-    int[] Emoticons, sum;
-    int maxSum = 0, maxPlus = 0;
+    int maxSum = 0, maxPlusUser = 0;
+    int[] userSum;
     
-    void recursive(int d) {
-        if (d == Emoticons.length) {
-            int tmp = 0, cnt = 0;
-            
-            for (int i = 0; i < Users.length; i++) {
-                if (sum[i] >= Users[i][1]) {
-                    ++cnt;
+    void recursive(int idx, int[][] users, int[] emoticons) {
+        if (emoticons.length == idx) {
+            int sum = 0, plusUser = 0;
+            for (int i = 0; i < users.length; i++) {
+                if (users[i][1] <= userSum[i]) {
+                    plusUser++;
                 } else {
-                    tmp += sum[i];
+                    sum += userSum[i];
                 }
             }
             
-            if (maxPlus < cnt) {
-                maxPlus = cnt;
-                maxSum = tmp;
-            } else if (maxPlus == cnt && maxSum < tmp) {
-                maxSum = tmp;
-            } 
             
-            return ;
+            if (maxPlusUser < plusUser) {
+                maxPlusUser = plusUser;
+                maxSum = sum;
+            } else if (maxPlusUser == plusUser && sum > maxSum) {
+                maxSum = sum;
+            }
+            
+            return;
         }
         
-        for (int i = 10; i <= 40; i += 10) {
-            for (int j = 0; j < Users.length; j++) {
-                if (Users[j][0] <= i) {
-                    sum[j] += (Emoticons[d] * (100 - i));
+        for (int i = 90; i > 50; i -= 10) {
+            for (int j = 0; j < users.length; j++) {
+                if (users[j][0] >= i) {
+                    userSum[j] += emoticons[idx] * i;
                 }
             }
             
-            recursive(d + 1);
+            recursive(idx + 1, users, emoticons);
             
-            for (int j = 0; j < Users.length; j++) {
-                if (Users[j][0] <= i) {
-                    sum[j] -= (Emoticons[d] * (100 - i));
+            for (int j = 0; j < users.length; j++) {
+                if (users[j][0] >= i) {
+                    userSum[j] -= emoticons[idx] * i;
                 }
             }
         }
     }
-    
     
     public int[] solution(int[][] users, int[] emoticons) {
+        userSum = new int[users.length];
         
-        for (int i = 0; i < emoticons.length; i++) {
-            emoticons[i] /= 100;
+        for (int i = 0; i < users.length; i++) {
+            users[i][0] = 100 - users[i][0];
         }
         
-        Emoticons = emoticons;
-        Users = users;
-        sum = new int[users.length];
-        
-        recursive(0);
-        
-        return new int[]{maxPlus, maxSum};
+        for (int i = 0 ; i < emoticons.length; i++) {
+            emoticons[i] /= 100;
+        }
+
+        recursive(0, users, emoticons);
+        return new int[]{maxPlusUser, maxSum};
     }
 }
-
-
-// 이모티콘 100 나누기
-// 플러스 배열
-// sum 배열
